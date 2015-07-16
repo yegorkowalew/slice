@@ -5,6 +5,7 @@ from datetime import datetime, date, time
 import subprocess
 import os
 import commands
+from money_parser import mymoney
 
 def money(request):
     side_content = 100
@@ -29,10 +30,12 @@ def index(request):
 
 def indexjq(request):
     header_name = "Главная"
-    money = '100грн.'
+    money = mymoney()
+    if money:
+        money = money + 'грн.'
     dates =date.today()
     time = datetime.now().time
-    uptime = commands.getoutput('uptime -p')[3:] #subprocess.call('uptime')
+    uptime = commands.getoutput('uptime -p')[3:]
     template = loader.get_template('index-jq.html')
     context = RequestContext(request, {
         'header_name': header_name, 
